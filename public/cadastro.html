@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form>
+        <h1>Cadastro</h1>
+        <label for="username">Usuário:</label>
+        <input type="text" id="username" required />
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" required />
+        <input type="submit" onclick="cadastrar(); return false;">
+    </form>
+
+    <script>
+        function cadastrar() {
+            var username = document.getElementById('username').value;
+            var senha = document.getElementById('senha').value;
+
+            // Verifica se o usuário já existe
+            if (localStorage.getItem(username)) {
+                alert('Usuário já cadastrado!');
+            } else {
+                // Armazena o usuário e a senha no localStorage
+                localStorage.setItem(username, senha);
+                alert('Cadastro realizado com sucesso!');
+                // Redireciona para a página de login
+                location.href = "/"; // Redireciona para a página inicial
+            }
+        }
+    </script>
+</body>
+</html>

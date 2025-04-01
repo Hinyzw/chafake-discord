@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form id="loginForm">
+        <div class="formulario">
+            <h1 style="text-align: center;">Bem vindo de volta</h1>
+            <p style="text-align: center;">É bom ve-lô denovo!</p>
+            <label for="username">Usuário:</label><br>
+            <input type="text" id="username" required /><br>
+            <label for="senha">Senha:</label><br>
+            <input type="password" id="senha" required /><br>
+            <input type="submit" value="Entrar"><br>
+            <a href="/cadastro.html">Ainda não tem Cadastro?</a>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var username = document.getElementById('username').value;
+            var senha = document.getElementById('senha').value;
+
+            // Verifica se o usuário existe e se a senha está correta
+            if (localStorage.getItem(username) === senha) {
+                alert('Logado com Sucesso');
+                // Armazena o usuário logado no sessionStorage
+                sessionStorage.setItem('loggedUser', username);
+                
+                // Redireciona para o chat.html (usando caminho relativo)
+                window.location.href = 'chat.html';
+            } else {
+                alert('Usuário ou Senha incorretos');
+            }
+        });
+    </script>
+</body>
+</html>

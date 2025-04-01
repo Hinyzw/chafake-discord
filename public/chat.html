@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord - #geral</title>
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+    <!-- Barra de servidores -->
+    <div class="servers-bar">
+        <div class="server-icon active">D</div>
+        <div class="server-icon">+</div>
+    </div>
+    
+    <!-- Barra de canais -->
+    <div class="channels-sidebar">
+        <div class="sidebar-header">
+            <span>Servidor Discord</span>
+        </div>
+        
+        <div class="channels-list">
+            <div class="channel-category">CANAIS DE TEXTO</div>
+            <div class="channel active">
+                <span>#</span>
+                <span>geral</span>
+            </div>
+            <div class="channel">
+                <span>#</span>
+                <span>jogos</span>
+            </div>
+            <div class="channel">
+                <span>#</span>
+                <span>musica</span>
+            </div>
+            
+            <div class="channel-category">CANAIS DE VOZ</div>
+            <div class="channel">
+                <span>🔊</span>
+                <span>Geral</span>
+            </div>
+            <div class="channel">
+                <span>🔊</span>
+                <span>Jogos</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Área principal de chat -->
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="channel-name">#geral</div>
+            <div class="channel-topic">Converse sobre qualquer coisa aqui</div>
+        </div>
+        
+        <div class="messages-container" id="messages">
+            <!-- Mensagens serão inseridas aqui pelo JavaScript -->
+        </div>
+        
+        <div class="message-input">
+            <form id="messageForm">
+                <input type="text" id="messageInput" placeholder="Mensagem em #geral" autocomplete="off">
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Barra lateral de membros -->
+    <div class="members-sidebar">
+        <div class="members-title">MEMBROS ONLINE — <span id="onlineCount">1</span></div>
+        <div class="members-list" id="membersList">
+            <!-- Membros serão inseridos aqui pelo JavaScript -->
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      // Verifica se o usuário está logado
+const loggedUser = sessionStorage.getItem('loggedUser');
+
+if (!loggedUser) {
+    alert('Por favor, faça login primeiro');
+    window.location.href = 'login.html';
+}
+
+// Configuração inicial
+const socket = io();
+const messagesContainer = document.getElementById('messages');
+const messageForm = document.getElementById('messageForm');
+const messageInput = document.getElementById('messageInput');
+const membersList = document.getElementById('membersList');
+const onlineCount = document.getElementById('onlineCount');
+
+// Adiciona o usuário atual à lista de membros
+function addCurrentUser() {
+    const firstLetter = loggedUser.charAt(0).toUpperCase();
+    const memberDiv = document.createElement('div');
+    memberDiv.className = 'member';
+    memberDiv.innerHTML = `
+        <div class="member-avatar" style="background-color: #57f287;">${firstLetter}</div>
+        <div class="member-name">${loggedUser}</div>
+    `;
+    membersList.appendChild(memberDiv);
+    onlineCount.textContent = '1';
+}
+
+// Adiciona mensagem ao chat
+function addMessage(username, message, isCurrentUser = false) {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const timestamp = `${hours}:${minutes}`;
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message';
+    messageDiv.innerHTML = `
+        <div class="avatar" style="background-color: ${isCurrentUser ? '#57f287' : '#7289da'};">${username.charAt(0).toUpperCase()}</div>
+        <div class="message-content">
+            <div class="message-header">
+                <span class="username">${username}</span>
+                <span class="timestamp">${timestamp}</span>
+            </div>
+            <div class="message-text">${message}</div>
+        </div>
+    `;
+    
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+// Envio de mensagem
+messageForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const message = messageInput.value.trim();
+    if (message) {
+        socket.emit('chat message', { username: loggedUser, message });
+        addMessage(loggedUser, message, true);
+        messageInput.value = '';
+    }
+});
+
+// Recebimento de mensagem
+socket.on('chat message', (data) => {
+    if (data.username !== loggedUser) {
+        addMessage(data.username, data.message);
+    }
+});
+
+// Inicialização
+addCurrentUser();
+
+// Adiciona algumas mensagens fictícias ao carregar
+window.addEventListener('DOMContentLoaded', () => {
+    const fictitiousMessages = [
+        { username: 'João', message: 'E aí galera, tudo bem?', color: '#5865f2' },
+        { username: 'Maria', message: 'Tudo sim! E contigo?', color: '#eb459e' },
+        { username: 'Pedro', message: 'Alguém vai jogar hoje?', color: '#ed4245' }
+    ];
+    
+    fictitiousMessages.forEach(msg => {
+        addMessage(msg.username, msg.message);
+    });
+    
+    messageInput.focus();
+});
+    </script>
+</body>
+</html>

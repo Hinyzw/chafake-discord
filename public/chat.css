@@ -1,0 +1,288 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #36393f;
+    color: #dcddde;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 72px 240px 1fr 240px;
+}
+
+/* Barra de servidores */
+.servers-bar {
+    background-color: #1e1f22;
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.server-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #36393f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #dcddde;
+    cursor: pointer;
+    transition: border-radius 0.2s ease;
+}
+
+.server-icon:hover {
+    border-radius: 30%;
+}
+
+.server-icon.active {
+    background-color: #5865f2;
+    border-radius: 30%;
+}
+
+/* Barra de canais */
+.channels-sidebar {
+    background-color: #2f3136;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 16px;
+    border-bottom: 1px solid #26282c;
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.channels-list {
+    padding: 8px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.channel-category {
+    color: #96989d;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 16px 8px 8px;
+}
+
+.channel {
+    padding: 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: #96989d;
+}
+
+.channel:hover {
+    background-color: #3e4147;
+    color: #dcddde;
+}
+
+.channel.active {
+    background-color: #42464d;
+    color: white;
+}
+
+/* Área principal de chat */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.chat-header {
+    background-color: #2f3136;
+    padding: 0 16px;
+    height: 48px;
+    border-bottom: 1px solid #26282c;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.channel-name {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.channel-topic {
+    color: #96989d;
+    font-size: 12px;
+}
+
+.messages-container {
+    flex-grow: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.message {
+    display: flex;
+    gap: 16px;
+    padding: 4px 0;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #7289da;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    flex-shrink: 0;
+    color: white;
+    cursor: pointer;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.message-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.username {
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+}
+
+.username:hover {
+    text-decoration: underline;
+}
+
+.timestamp {
+    font-size: 12px;
+    color: #72767d;
+}
+
+.message-text {
+    font-size: 16px;
+    line-height: 1.375;
+    word-break: break-word;
+}
+
+/* Área de input */
+.message-input {
+    background-color: #484b52;
+    padding: 16px;
+}
+
+#messageForm {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: center;
+}
+
+#messageInput {
+    background-color: #383b40;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 16px;
+    color: #dcddde;
+    font-size: 16px;
+}
+
+#messageInput::placeholder {
+    color: #72767d;
+}
+
+#messageInput:focus {
+    outline: none;
+}
+
+#messageForm button {
+    background-color: #7289da;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 16px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.17s ease;
+}
+
+#messageForm button:hover {
+    background-color: #677bc4;
+}
+
+/* Barra lateral de membros */
+.members-sidebar {
+    background-color: #2f3136;
+    padding: 16px;
+    overflow-y: auto;
+    border-left: 1px solid #26282c;
+}
+
+.members-title {
+    color: #72767d;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.member {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    margin-bottom: 8px;
+}
+
+.member-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #5865f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+}
+
+.member-name {
+    font-size: 14px;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2e3338;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #202225;
+    border-radius: 4px;
+}
